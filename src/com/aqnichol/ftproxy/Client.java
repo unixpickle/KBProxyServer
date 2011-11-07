@@ -24,6 +24,9 @@ public class Client {
 	private InputStream socketInput;
 	private OutputStream socketOutput;
 	private Socket socket;
+	
+	private Object isOpenLock;
+	private boolean isOpen = true;
 
 	private ClientCallback callback = null;
 
@@ -40,6 +43,7 @@ public class Client {
 		this.callback = callback;
 		pairedClientLock = new Object();
 		authTokenLock = new Object();
+		isOpenLock = new Object();
 	}
 
 	public void detatchClientThread () {
@@ -47,7 +51,7 @@ public class Client {
 		Runnable r = new Runnable () {
 			public void run () {
 				try {
-					while (true) {
+					while (getIsOpen()) {
 						mainClientLoop();
 					}
 				} catch (IOException e) {
@@ -63,22 +67,24 @@ public class Client {
 	}
 
 	public void disconnect () throws IOException {
+		setIsOpen(false);
 		socketInput.close();
 		socketOutput.close();
 		socket.close();
 	}
 	
-	public void sendMap (Map<String, ?> dictionary) {
+	public void sendMap (Map<String, ?> dictionary) throws IOException {
 		synchronized (socketOutput) {
 			try {
 				ValueEncoder.encodeRootObjectToStream(dictionary, socketOutput);
 			} catch (IOException e) {
 				callback.ClientEncounteredException(this, e);
+				throw e;
 			}
 		}
 	}
 
-	public void pairedWithClient (Client aClient) {
+	public void pairedWithClient (Client aClient) throws IOException {
 		synchronized (pairedClientLock) {
 			pairedClient = aClient;
 		}
@@ -94,13 +100,13 @@ public class Client {
 		}
 	}
 
-	public void remoteClientDisconnected () {
+	public void remoteClientDisconnected () throws IOException {
 		synchronized (pairedClientLock) {
 			pairedClient = null;
 		}
 		HashMap<String, String> connInfo = new HashMap<String, String>();
 		connInfo.put("type", "conn");
-		connInfo.put("action", "connected");
+		connInfo.put("action", "disconnected");
 		sendMap(connInfo);
 	}
 	
@@ -113,6 +119,18 @@ public class Client {
 	public void setAuthToken (byte[] authToken) {
 		synchronized (authTokenLock) {
 			this.authToken = authToken;
+		}
+	}
+	
+	public boolean getIsOpen () {
+		synchronized (isOpenLock) {
+			return isOpen;
+		}
+	}
+	
+	private void setIsOpen (boolean flag) {
+		synchronized (isOpenLock) {
+			isOpen = flag;
 		}
 	}
 
@@ -141,13 +159,17 @@ public class Client {
 	private void clientSentData (Map<String, ?> theMessage) {
 		Client paired = this.getPairedClient();
 		if (paired != null) {
-			paired.sendMap(theMessage);
+			try {
+				paired.sendMap(theMessage);
+			} catch (IOException e) {
+			}
 		}
 	}
 
-	private void clientSentAuthToken (ByteBuffer token) {
+	private void clientSentAuthToken (ByteBuffer token) throws IOException {
 		if (!callback.ClientRequestedAuthorization(this, token.array())) {
 			// write an error map
+			if (!getIsOpen()) return;
 			HashMap<String, Object> errorMsg = new HashMap<String, Object>();
 			errorMsg.put("type", "error");
 			errorMsg.put("msg", "Auth token already in use");

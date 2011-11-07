@@ -47,8 +47,12 @@ public class ClientManager implements Client.ClientCallback {
 					if (aClient.getPairedClient() == null) {
 						// pair up the two clients
 						c.setAuthToken(token);
-						c.pairedWithClient(aClient);
-						aClient.pairedWithClient(aClient);
+						try {
+							c.pairedWithClient(aClient);
+							aClient.pairedWithClient(aClient);
+						} catch (IOException e) {
+							return false;
+						}
 						return true;
 					} else {
 						return false;
@@ -61,10 +65,16 @@ public class ClientManager implements Client.ClientCallback {
 	}
 	
 	private void broadcastClientDisconnect (Client client) {
-		System.out.println("Client disconnected: " + client);
 		Client paired = client.getPairedClient();
 		if (paired != null) {
-			paired.remoteClientDisconnected();
+			if (paired.getPairedClient() != client) {
+				// the pair was not yet finished.
+				return;
+			}
+			try {
+				paired.remoteClientDisconnected();
+			} catch (IOException e) {
+			}
 		}
 	}
 	
