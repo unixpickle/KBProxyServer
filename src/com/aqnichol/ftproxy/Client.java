@@ -3,7 +3,9 @@ package com.aqnichol.ftproxy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,34 +18,48 @@ public class Client {
 
 	public interface ClientCallback {
 
-		public void ClientEncounteredException (Client c, Exception e);
-		public boolean ClientRequestedAuthorization (Client c, byte[] token);
+		public void clientUnhandledException (Client c, Exception e);
+		public boolean clientRequestedAuthToken (Client c, byte[] token);
 
+	}
+	
+	public enum ConnectionState {
+		NoIdentification, NotPaired, NotNotified, Connected
 	}
 
 	private InputStream socketInput;
 	private OutputStream socketOutput;
 	private Socket socket;
 	
-	private Object isOpenLock;
-	private boolean isOpen = true;
-
 	private ClientCallback callback = null;
 
 	private byte[] authToken = null;
 	private Object authTokenLock;
 	private Client pairedClient = null;
 	private Object pairedClientLock;
+	private ConnectionState connectionState;
+	private Object connectionStateLock;
+	
+	private static String stringFromSockAddr (SocketAddress addr) {
+		if (addr instanceof InetSocketAddress) {
+			InetSocketAddress inet = (InetSocketAddress)addr;
+			return inet.getHostName() + ":" + inet.getPort();
+		}
+		return addr.toString();
+	}
 
 	public Client (Socket aSocket, ClientCallback callback) throws IOException {
+		System.out.println("New connection: " + Client.stringFromSockAddr(aSocket.getRemoteSocketAddress()));
 		socket = aSocket;
 		socketInput = socket.getInputStream();
 		socketOutput = socket.getOutputStream();
-
 		this.callback = callback;
+		
 		pairedClientLock = new Object();
 		authTokenLock = new Object();
-		isOpenLock = new Object();
+		connectionStateLock = new Object();
+		
+		setConnectionState(ConnectionState.NoIdentification);
 	}
 
 	public void detatchClientThread () {
@@ -51,15 +67,15 @@ public class Client {
 		Runnable r = new Runnable () {
 			public void run () {
 				try {
-					while (getIsOpen()) {
+					while (true) {
 						mainClientLoop();
 					}
 				} catch (IOException e) {
-					callback.ClientEncounteredException(client, e);
+					callback.clientUnhandledException(client, e);
 				} catch (UnmatchedTypeException e) {
-					callback.ClientEncounteredException(client, e);
+					callback.clientUnhandledException(client, e);
 				} catch (PacketValidator.InvalidPacketException e) {
-					callback.ClientEncounteredException(client, e);
+					callback.clientUnhandledException(client, e);
 				}
 			}
 		};
@@ -67,47 +83,49 @@ public class Client {
 	}
 
 	public void disconnect () throws IOException {
-		setIsOpen(false);
-		socketInput.close();
-		socketOutput.close();
-		socket.close();
+		synchronized (socket) {
+			System.out.println("Disconnected: " + Client.stringFromSockAddr(socket.getRemoteSocketAddress()));
+			socketInput.close();
+			socketOutput.close();
+			socket.close();
+		}
 	}
 	
 	public void sendMap (Map<String, ?> dictionary) throws IOException {
 		synchronized (socketOutput) {
-			try {
-				ValueEncoder.encodeRootObjectToStream(dictionary, socketOutput);
-			} catch (IOException e) {
-				callback.ClientEncounteredException(this, e);
-				throw e;
-			}
+			ValueEncoder.encodeRootObjectToStream(dictionary, socketOutput);
 		}
 	}
-
-	public void pairedWithClient (Client aClient) throws IOException {
-		synchronized (pairedClientLock) {
-			pairedClient = aClient;
-		}
-		HashMap<String, String> connInfo = new HashMap<String, String>();
-		connInfo.put("type", "conn");
-		connInfo.put("action", "connected");
-		sendMap(connInfo);
-	}
-
+	
 	public Client getPairedClient () {
 		synchronized (pairedClientLock) {
 			return pairedClient;
 		}
 	}
 
-	public void remoteClientDisconnected () throws IOException {
+	public void setPairedClient (Client aClient) {
 		synchronized (pairedClientLock) {
-			pairedClient = null;
+			pairedClient = aClient;
 		}
+	}
+	
+	public void notifyClientState (String connState) throws IOException {
 		HashMap<String, String> connInfo = new HashMap<String, String>();
 		connInfo.put("type", "conn");
-		connInfo.put("action", "disconnected");
+		connInfo.put("action", connState);
 		sendMap(connInfo);
+	}
+	
+	public ConnectionState getConnectionState () {
+		synchronized (connectionStateLock) {
+			return connectionState;
+		}
+	}
+	
+	public void setConnectionState (ConnectionState aState) {
+		synchronized (connectionStateLock) {
+			connectionState = aState;
+		}
 	}
 	
 	public byte[] getAuthToken () {
@@ -119,18 +137,6 @@ public class Client {
 	public void setAuthToken (byte[] authToken) {
 		synchronized (authTokenLock) {
 			this.authToken = authToken;
-		}
-	}
-	
-	public boolean getIsOpen () {
-		synchronized (isOpenLock) {
-			return isOpen;
-		}
-	}
-	
-	private void setIsOpen (boolean flag) {
-		synchronized (isOpenLock) {
-			isOpen = flag;
 		}
 	}
 
@@ -156,20 +162,16 @@ public class Client {
 		}
 	}
 
-	private void clientSentData (Map<String, ?> theMessage) {
+	private void clientSentData (Map<String, ?> theMessage) throws IOException {
 		Client paired = this.getPairedClient();
 		if (paired != null) {
-			try {
-				paired.sendMap(theMessage);
-			} catch (IOException e) {
-			}
+			paired.sendMap(theMessage);
 		}
 	}
 
 	private void clientSentAuthToken (ByteBuffer token) throws IOException {
-		if (!callback.ClientRequestedAuthorization(this, token.array())) {
+		if (!callback.clientRequestedAuthToken(this, token.array())) {
 			// write an error map
-			if (!getIsOpen()) return;
 			HashMap<String, Object> errorMsg = new HashMap<String, Object>();
 			errorMsg.put("type", "error");
 			errorMsg.put("msg", "Auth token already in use");

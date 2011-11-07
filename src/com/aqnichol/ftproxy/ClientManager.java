@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.aqnichol.ftproxy.Client.ConnectionState;
+
 public class ClientManager implements Client.ClientCallback {
 
 	private ArrayList<Client> clients;
@@ -21,7 +23,7 @@ public class ClientManager implements Client.ClientCallback {
 		theClient.detatchClientThread();
 	}
 	
-	public void ClientEncounteredException (Client c, Exception e) {
+	public void clientUnhandledException (Client c, Exception e) {
 		try {
 			synchronized (clients) {
 				if (!clients.contains(c)) {
@@ -36,23 +38,48 @@ public class ClientManager implements Client.ClientCallback {
 		}
 	}
 	
-	public boolean ClientRequestedAuthorization (Client c, byte[] token) {
+	/**
+	 * Called when a client sends an auth packet.
+	 * @param c The client that has sent the auth packet
+	 * @param token The auth token that the client wishes to use
+	 * @return true when the token is in use by one of fewer other clients,
+	 * or false if the token is already in use by two clients.
+	 */
+	public boolean clientRequestedAuthToken (Client c, byte[] token) {
 		// confirm that no other two clients have the same token
 		broadcastClientDisconnect(c);
 		c.setAuthToken(null);
+		c.setConnectionState(ConnectionState.NoIdentification);
 		synchronized (clients) {
 			for (int i = 0; i < clients.size(); i++) {
 				Client aClient = clients.get(i);
 				if (Arrays.equals(token, aClient.getAuthToken())) {
-					if (aClient.getPairedClient() == null) {
+					if (aClient.getConnectionState() == ConnectionState.NotPaired) {
 						// pair up the two clients
 						c.setAuthToken(token);
+						
+						c.setPairedClient(aClient);
+						aClient.setPairedClient(c);
+						
+						c.setConnectionState(ConnectionState.NotNotified);
+						aClient.setConnectionState(ConnectionState.NotNotified);
+						
 						try {
-							c.pairedWithClient(aClient);
-							aClient.pairedWithClient(aClient);
+							aClient.notifyClientState("connected");
 						} catch (IOException e) {
-							return false;
+							this.clientUnhandledException(aClient, e);
 						}
+						
+						aClient.setConnectionState(ConnectionState.Connected);
+						
+						try {
+							c.notifyClientState("connected");
+						} catch (IOException e) {
+							this.clientUnhandledException(c, e);
+						}
+						
+						c.setConnectionState(ConnectionState.Connected);
+						
 						return true;
 					} else {
 						return false;
@@ -60,20 +87,29 @@ public class ClientManager implements Client.ClientCallback {
 				}
 			}
 		}
+		
+		c.setConnectionState(ConnectionState.NotPaired);
 		c.setAuthToken(token);
 		return true;
 	}
 	
 	private void broadcastClientDisconnect (Client client) {
 		Client paired = client.getPairedClient();
+		client.setPairedClient(null);
 		if (paired != null) {
-			if (paired.getPairedClient() != client) {
-				// the pair was not yet finished.
+			paired.setPairedClient(null);
+			
+			if (paired.getConnectionState() != ConnectionState.Connected) {
+				paired.setConnectionState(ConnectionState.NotPaired);
 				return;
 			}
+			
+			paired.setConnectionState(ConnectionState.NotPaired);
+			
 			try {
-				paired.remoteClientDisconnected();
+				paired.notifyClientState("disconnected");
 			} catch (IOException e) {
+				this.clientUnhandledException(paired, e);
 			}
 		}
 	}
