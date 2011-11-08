@@ -12,14 +12,14 @@ KBProxyServer uses KeyedBits to send dictionaries back and forth accross TCP. Th
 
 	[Client1->Server] connect to server on port 9000
 	[Client2->Server] connect to server on port 9000
-	[Client1->Server] send ["type":"auth", "token":<DATA_HERE>]
-	[Client2->Server] send ["type":"auth", "token":<DATA_HERE>]
+	[Client1->Server] send ["type":"auth", "token":<DATA>]
+	[Client2->Server] send ["type":"auth", "token":<DATA>]
 	// both clients have identified themselves, proxy pairs them
 	[Server->Client1] send ["type":"conn", "action":"connected", started:1]
 	[Server->Client2] send ["type":"conn", "action":"connected", started:0]
 	// example of writing data from one client to the other
-	[Client1->Server] send ["type":"data", "data":<SOME_DATA>]
-	[Server->Client2] send ["type":"data", "data":<SOME_DATA>]
+	[Client1->Server] send ["type":"data", "data":<DATA>]
+	[Server->Client2] send ["type":"data", "data":<DATA>]
 	// Client1 disconnects
 	[Server->Client2] send ["type":"conn", "action":"disconnected"]
 
@@ -27,7 +27,7 @@ KBProxyServer uses KeyedBits to send dictionaries back and forth accross TCP. Th
 
 Errors are sent via KeyedBits dictionaries in the following format:
 
-	["type":"error", "msg":"some error message", "code":<SOME_INT>]
+	["type":"error", "msg":<STRING_ERROR_MSG>, "code":<INT_ERROR_CODE>]
 
 Error codes:
 
