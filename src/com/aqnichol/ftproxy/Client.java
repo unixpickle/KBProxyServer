@@ -173,6 +173,16 @@ public class Client {
 	private void clientSentData (Map<String, ?> theMessage) throws IOException {
 		Client paired = this.getPairedClient();
 		if (paired != null) {
+			// wait for the paired client to be connected before we send this object.
+			int timeout = 1000/50;
+			while (paired.getConnectionState() != ConnectionState.Connected) {
+				try {
+					Thread.sleep(50);
+					timeout -= 1;
+				} catch (InterruptedException e) {
+				}	
+				if (timeout <= 0) throw new IOException("Paired client is no longer connected");
+			}
 			paired.sendMap(theMessage);
 		}
 	}

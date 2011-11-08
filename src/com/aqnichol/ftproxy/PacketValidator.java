@@ -64,10 +64,11 @@ public class PacketValidator {
 		if (!map.containsKey("data")) {
 			throw new InvalidPacketException("No data field found", map);
 		}
-		Object dataObj = map.get("data");
-		if (!(dataObj instanceof ByteBuffer)) {
-			throw new InvalidPacketException("Invalid class for data field: " + dataObj.getClass(), map);
-		}
+		// Allow sending ANY kind of object
+		//Object dataObj = map.get("data");
+		//if (!(dataObj instanceof ByteBuffer)) {
+		//	throw new InvalidPacketException("Invalid class for data field: " + dataObj.getClass(), map);
+		//}
 	}
 
 }
