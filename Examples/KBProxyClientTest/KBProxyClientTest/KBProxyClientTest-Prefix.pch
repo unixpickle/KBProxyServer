@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'KBProxyClientTest' target in the 'KBProxyClientTest' project
+//
+
+#ifdef __OBJC__
+	#import <Foundation/Foundation.h>
+#endif

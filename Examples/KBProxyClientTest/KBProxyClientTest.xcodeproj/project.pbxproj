@@ -1,0 +1,284 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FAD32A0F14689FCC0058B482 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD32A0E14689FCC0058B482 /* Foundation.framework */; };
+		FAD32A1214689FCC0058B482 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A1114689FCC0058B482 /* main.m */; };
+		FAD32A1614689FCC0058B482 /* KBProxyClientTest.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAD32A1514689FCC0058B482 /* KBProxyClientTest.1 */; };
+		FAD32A2714689FD70058B482 /* KBEncodeObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A1D14689FD70058B482 /* KBEncodeObjC.m */; };
+		FAD32A2814689FD70058B482 /* KBDecodeObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A1F14689FD70058B482 /* KBDecodeObjC.m */; };
+		FAD32A2914689FD70058B482 /* KBContext.c in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A2214689FD70058B482 /* KBContext.c */; };
+		FAD32A2A14689FD70058B482 /* KBEncode.c in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A2414689FD70058B482 /* KBEncode.c */; };
+		FAD32A2B14689FD70058B482 /* KBDecode.c in Sources */ = {isa = PBXBuildFile; fileRef = FAD32A2614689FD70058B482 /* KBDecode.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FAD32A0814689FCC0058B482 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				FAD32A1614689FCC0058B482 /* KBProxyClientTest.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		FAD32A0A14689FCC0058B482 /* KBProxyClientTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KBProxyClientTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD32A0E14689FCC0058B482 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FAD32A1114689FCC0058B482 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FAD32A1414689FCC0058B482 /* KBProxyClientTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KBProxyClientTest-Prefix.pch"; sourceTree = "<group>"; };
+		FAD32A1514689FCC0058B482 /* KBProxyClientTest.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = KBProxyClientTest.1; sourceTree = "<group>"; };
+		FAD32A1C14689FD70058B482 /* KBEncodeObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBEncodeObjC.h; sourceTree = "<group>"; };
+		FAD32A1D14689FD70058B482 /* KBEncodeObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBEncodeObjC.m; sourceTree = "<group>"; };
+		FAD32A1E14689FD70058B482 /* KBDecodeObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBDecodeObjC.h; sourceTree = "<group>"; };
+		FAD32A1F14689FD70058B482 /* KBDecodeObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KBDecodeObjC.m; sourceTree = "<group>"; };
+		FAD32A2014689FD70058B482 /* KBConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBConst.h; sourceTree = "<group>"; };
+		FAD32A2114689FD70058B482 /* KBContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBContext.h; sourceTree = "<group>"; };
+		FAD32A2214689FD70058B482 /* KBContext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KBContext.c; sourceTree = "<group>"; };
+		FAD32A2314689FD70058B482 /* KBEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBEncode.h; sourceTree = "<group>"; };
+		FAD32A2414689FD70058B482 /* KBEncode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KBEncode.c; sourceTree = "<group>"; };
+		FAD32A2514689FD70058B482 /* KBDecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KBDecode.h; sourceTree = "<group>"; };
+		FAD32A2614689FD70058B482 /* KBDecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = KBDecode.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FAD32A0714689FCC0058B482 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAD32A0F14689FCC0058B482 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FAD329FF14689FCB0058B482 = {
+			isa = PBXGroup;
+			children = (
+				FAD32A2C14689FD90058B482 /* KBCKit */,
+				FAD32A1014689FCC0058B482 /* KBProxyClientTest */,
+				FAD32A0D14689FCC0058B482 /* Frameworks */,
+				FAD32A0B14689FCC0058B482 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FAD32A0B14689FCC0058B482 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A0A14689FCC0058B482 /* KBProxyClientTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAD32A0D14689FCC0058B482 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A0E14689FCC0058B482 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FAD32A1014689FCC0058B482 /* KBProxyClientTest */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A1114689FCC0058B482 /* main.m */,
+				FAD32A1514689FCC0058B482 /* KBProxyClientTest.1 */,
+				FAD32A1314689FCC0058B482 /* Supporting Files */,
+			);
+			path = KBProxyClientTest;
+			sourceTree = "<group>";
+		};
+		FAD32A1314689FCC0058B482 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A1414689FCC0058B482 /* KBProxyClientTest-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FAD32A2C14689FD90058B482 /* KBCKit */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A2D14689FE10058B482 /* Objective-C */,
+				FAD32A2014689FD70058B482 /* KBConst.h */,
+				FAD32A2114689FD70058B482 /* KBContext.h */,
+				FAD32A2214689FD70058B482 /* KBContext.c */,
+				FAD32A2314689FD70058B482 /* KBEncode.h */,
+				FAD32A2414689FD70058B482 /* KBEncode.c */,
+				FAD32A2514689FD70058B482 /* KBDecode.h */,
+				FAD32A2614689FD70058B482 /* KBDecode.c */,
+			);
+			name = KBCKit;
+			sourceTree = "<group>";
+		};
+		FAD32A2D14689FE10058B482 /* Objective-C */ = {
+			isa = PBXGroup;
+			children = (
+				FAD32A1C14689FD70058B482 /* KBEncodeObjC.h */,
+				FAD32A1D14689FD70058B482 /* KBEncodeObjC.m */,
+				FAD32A1E14689FD70058B482 /* KBDecodeObjC.h */,
+				FAD32A1F14689FD70058B482 /* KBDecodeObjC.m */,
+			);
+			name = "Objective-C";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FAD32A0914689FCC0058B482 /* KBProxyClientTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAD32A1914689FCC0058B482 /* Build configuration list for PBXNativeTarget "KBProxyClientTest" */;
+			buildPhases = (
+				FAD32A0614689FCC0058B482 /* Sources */,
+				FAD32A0714689FCC0058B482 /* Frameworks */,
+				FAD32A0814689FCC0058B482 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KBProxyClientTest;
+			productName = KBProxyClientTest;
+			productReference = FAD32A0A14689FCC0058B482 /* KBProxyClientTest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAD32A0114689FCB0058B482 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = FAD32A0414689FCB0058B482 /* Build configuration list for PBXProject "KBProxyClientTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FAD329FF14689FCB0058B482;
+			productRefGroup = FAD32A0B14689FCC0058B482 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAD32A0914689FCC0058B482 /* KBProxyClientTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FAD32A0614689FCC0058B482 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAD32A1214689FCC0058B482 /* main.m in Sources */,
+				FAD32A2714689FD70058B482 /* KBEncodeObjC.m in Sources */,
+				FAD32A2814689FD70058B482 /* KBDecodeObjC.m in Sources */,
+				FAD32A2914689FD70058B482 /* KBContext.c in Sources */,
+				FAD32A2A14689FD70058B482 /* KBEncode.c in Sources */,
+				FAD32A2B14689FD70058B482 /* KBDecode.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		FAD32A1714689FCC0058B482 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FAD32A1814689FCC0058B482 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		FAD32A1A14689FCC0058B482 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KBProxyClientTest/KBProxyClientTest-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FAD32A1B14689FCC0058B482 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KBProxyClientTest/KBProxyClientTest-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FAD32A0414689FCB0058B482 /* Build configuration list for PBXProject "KBProxyClientTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAD32A1714689FCC0058B482 /* Debug */,
+				FAD32A1814689FCC0058B482 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAD32A1914689FCC0058B482 /* Build configuration list for PBXNativeTarget "KBProxyClientTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAD32A1A14689FCC0058B482 /* Debug */,
+				FAD32A1B14689FCC0058B482 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FAD32A0114689FCB0058B482 /* Project object */;
+}
