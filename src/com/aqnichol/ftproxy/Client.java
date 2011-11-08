@@ -116,6 +116,14 @@ public class Client {
 		sendMap(connInfo);
 	}
 	
+	public void notifyClientState (String connState, boolean started) throws IOException {
+		HashMap<String, Object> connInfo = new HashMap<String, Object>();
+		connInfo.put("type", "conn");
+		connInfo.put("action", connState);
+		connInfo.put("started", new Integer(started ? 1 : 0));
+		sendMap(connInfo);
+	}
+	
 	public ConnectionState getConnectionState () {
 		synchronized (connectionStateLock) {
 			return connectionState;

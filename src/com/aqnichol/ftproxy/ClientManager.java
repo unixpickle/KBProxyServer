@@ -65,7 +65,7 @@ public class ClientManager implements Client.ClientCallback {
 						aClient.setConnectionState(ConnectionState.NotNotified);
 						
 						try {
-							aClient.notifyClientState("connected");
+							aClient.notifyClientState("connected", true);
 						} catch (IOException e) {
 							this.clientUnhandledException(aClient, e);
 						}
@@ -73,7 +73,7 @@ public class ClientManager implements Client.ClientCallback {
 						aClient.setConnectionState(ConnectionState.Connected);
 						
 						try {
-							c.notifyClientState("connected");
+							c.notifyClientState("connected", false);
 						} catch (IOException e) {
 							this.clientUnhandledException(c, e);
 						}

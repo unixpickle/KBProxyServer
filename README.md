@@ -18,8 +18,8 @@ KBProxyServer uses KeyedBits to send dictionaries back and forth accross TCP. Th
 	[Client1->Server] send ["type":"auth", "token":<DATA_HERE>]
 	[Client2->Server] send ["type":"auth", "token":<DATA_HERE>]
 	// both clients have identified themselves, proxy pairs them
-	[Server->Client2] send ["type":"conn", "action":"connected"]
-	[Server->Client1] send ["type":"conn", "action":"connected"]
+	[Server->Client1] send ["type":"conn", "action":"connected", started:1]
+	[Server->Client2] send ["type":"conn", "action":"connected", started:0]
 	// example of writing data from one client to the other
 	[Client1->Server] send ["type":"data", "data":<SOME_DATA>]
 	[Server->Client2] send ["type":"data", "data":<SOME_DATA>]
