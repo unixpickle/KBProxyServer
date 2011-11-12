@@ -70,11 +70,7 @@ public class Client {
 					while (true) {
 						mainClientLoop();
 					}
-				} catch (IOException e) {
-					callback.clientUnhandledException(client, e);
-				} catch (UnmatchedTypeException e) {
-					callback.clientUnhandledException(client, e);
-				} catch (PacketValidator.InvalidPacketException e) {
+				} catch (Exception e) {
 					callback.clientUnhandledException(client, e);
 				}
 			}
